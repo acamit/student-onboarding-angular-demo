@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="row">
+      <div class="col">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Select category</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem (click)="setCategoryFilter('all')">All</button>
+            <button ngbDropdownItem (click)="setCategoryFilter('domestic')">Domestic</button>
+            <button ngbDropdownItem (click)="setCategoryFilter('International')">International</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    search here
+  </div>
+</div>
+<br />
+<br />
+<br />
+<div class="row">
+  <div class="card" style="width: 18rem;" *ngFor="let student of (students|filterStudents:categoryFilter)">
+    <div class="card-body">
+      <h5 class="card-title">{{student.name}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{student.category}}</h6>
+      <p class="card-text">{{student.fatherName}}</p>
+      <p class="card-text">{{student.motherName}}</p>
+      <p class="card-text">{{student.dob}}</p>
+      <a [routerLink]="['/students', student.id]" class="card-link">Details</a>
+      <a [routerLink]="['/students/edit', student.id]" class="card-link">Edit </a>
+      <button class="btn btn-primary" (click)="DeleteStudent(student.id)">Delete </button>
+    </div>
+  </div>
+</div>
