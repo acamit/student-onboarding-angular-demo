@@ -3,8 +3,8 @@ export class Student {
   name: string;
   category:string;
   documents:number[];
-  dob:Date;
-  fathersName:string;
-  mothersName:string;
+  dateOfBirth:Date;
+  fatherName:string;
+  motherName:string;
   lastClassScore:number;
 }

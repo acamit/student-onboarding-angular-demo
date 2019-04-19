@@ -3,11 +3,17 @@ import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTT
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { Users } from '../data/users';
+import { Student } from '../Entities/Student';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
 
-    constructor() { }
+    constructor() {
+        var nextId = localStorage.getItem("nextId");
+        if(!nextId){
+            localStorage.setItem("nextId","1");
+        }
+     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // let users: any[] = JSON.parse(localStorage.getItem('users')) || [];
@@ -38,20 +44,48 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 }
             }
             
+            //register student
             if (request.url.endsWith('students/register') && request.method === 'POST') {
                 // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
                 if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     var result = {success:true,error:""}
                     var students = localStorage.getItem("students");
+                    var id = +localStorage.getItem("nextId");
+
                     var newStudents = [];
                     if(students){
                         newStudents = JSON.parse(students);
-                    }else{
-                        newStudents = [];
                     }
+                    request.body.student.id = id;
                     newStudents.push(request.body.student);
                     localStorage.setItem("students",JSON.stringify(newStudents));
+                    localStorage.setItem("nextId",`${id+1}`);
                     return of(new HttpResponse({ status: 200, body: result}));
+                } else {
+                    // return 401 not authorised if token is null or invalid
+                    return throwError({ status: 401, error: { message: 'Unauthorised' } });
+                }
+            }
+            // get student by id
+            if (request.url.match(/students\/\d+$/) && request.method === 'GET') {
+                // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
+                if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
+                    // find student by id in students array
+                    let urlParts = request.url.split('/');
+                    let id = parseInt(urlParts[urlParts.length - 1]);
+                    students = localStorage.getItem("students");
+                    newStudents = [];
+                    if(students){
+                        newStudents = JSON.parse(students);
+                    }
+                    let matchedStudent = newStudents.filter(s => { return s.id === id; });
+                    let studentToEdit = matchedStudent.length ? matchedStudent[0] : null;
+                    if(studentToEdit){
+                        return of(new HttpResponse({ status: 200, body: studentToEdit }));
+                    }else{
+                        return throwError({ status: 404, error: { message: 'Invalid id' } });    
+                    }
+                    
                 } else {
                     // return 401 not authorised if token is null or invalid
                     return throwError({ status: 401, error: { message: 'Unauthorised' } });
@@ -67,46 +101,40 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return throwError({ status: 401, error: { message: 'Unauthorised' } });
                 }
             }
+  
+*/
 
-            // get user by id
-            if (request.url.match(/users\/\d+$/) && request.method === 'GET') {
+            // update user
+            if (request.url.match(/student\/\d+$/) && request.method === 'PATCH') {
                 // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
                 if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     // find user by id in users array
                     let urlParts = request.url.split('/');
                     let id = parseInt(urlParts[urlParts.length - 1]);
-                    let matchedUsers = users.filter(user => { return user.id === id; });
-                    let user = matchedUsers.length ? matchedUsers[0] : null;
-
-                    return of(new HttpResponse({ status: 200, body: user }));
+                    students = localStorage.getItem("students");
+                    newStudents = [];
+                    if(students){
+                        newStudents = JSON.parse(students);
+                    }
+                    for (let i = 0; i < newStudents.length; i++) {
+                        let newStudent = newStudents[i];
+                        if (newStudent.id === id) {
+                            newStudents.splice(i, 1);
+                            newStudents.push(request.body.student);
+                            localStorage.setItem('students', JSON.stringify(newStudents));
+                            break;
+                        }
+                    }
+                    var result = {success:true,error:""}
+                    // respond 200 OK
+                    return of(new HttpResponse({ status: 200, body:result }));
                 } else {
                     // return 401 not authorised if token is null or invalid
                     return throwError({ status: 401, error: { message: 'Unauthorised' } });
                 }
             }
-
-            // register user
-            if (request.url.endsWith('users/register') && request.method === 'POST') {
-                // get new user object from post body
-                let newUser = request.body;
-
-                // validation
-                let duplicateUser = users.filter(user => { return user.username === newUser.username; }).length;
-                if (duplicateUser) {
-                    return throwError({ error: { message: 'Username "' + newUser.username + '" is already taken' } });
-                }
-
-                // save new user
-                newUser.id = users.length + 1;
-                users.push(newUser);
-                localStorage.setItem('users', JSON.stringify(users));
-
-                // respond 200 OK
-                return of(new HttpResponse({ status: 200 }));
-            }
-
             // delete user
-            if (request.url.match(/users\/\d+$/) && request.method === 'DELETE') {
+            if (request.url.match(/student\/\d+$/) && request.method === 'DELETE') {
                 // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
                 if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     // find user by id in users array
@@ -129,7 +157,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return throwError({ status: 401, error: { message: 'Unauthorised' } });
                 }
             }
-*/
             // pass through any requests not handled above
             return next.handle(request);
             

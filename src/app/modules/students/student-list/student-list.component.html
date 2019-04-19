@@ -6,7 +6,7 @@
           <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Select category</button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
             <button ngbDropdownItem (click)="setCategoryFilter('all')">All</button>
-            <button ngbDropdownItem (click)="setCategoryFilter('domestic')">Domestic</button>
+            <button ngbDropdownItem (click)="setCategoryFilter('Domestic')">Domestic</button>
             <button ngbDropdownItem (click)="setCategoryFilter('International')">International</button>
           </div>
         </div>
@@ -30,7 +30,7 @@
       <p class="card-text">{{student.fatherName}}</p>
       <p class="card-text">{{student.motherName}}</p>
       <p class="card-text">{{student.dob}}</p>
-      <a [routerLink]="['/students/details', student.id]" class="card-link">Details</a>
+      <a [routerLink]="['/students/view', student.id]" class="card-link">Details</a>
       <a [routerLink]="['/students/edit', student.id]" class="card-link">Edit </a>
       <button class="btn btn-primary" (click)="DeleteStudent(student.id)">Delete </button>
     </div>

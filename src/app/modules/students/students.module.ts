@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 
 const studentRoutes: Routes = [
   { path: 'students',  component: StudentListComponent ,canActivate:[AuthGuard]},
-  { path: 'students/details/:id', component: RegistrationComponent,canActivate:[AuthGuard] },
+  { path: 'students/view/:id', component: RegistrationComponent,canActivate:[AuthGuard] },
   { path: 'students/edit/:id', component: RegistrationComponent, canActivate:[AuthGuard]}
 ];
 
