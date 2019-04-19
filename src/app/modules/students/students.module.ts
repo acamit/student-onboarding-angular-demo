@@ -8,6 +8,8 @@ import { AuthGuard } from 'src/app/guards/auth.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterStudentsPipe } from 'src/app/pipes/filter-students/filter-students.pipe';
 import { FormsModule } from '@angular/forms';
+import { JsonToDatePipe } from '../../pipes/json-to-date/json-to-date.pipe';
+
 
 const studentRoutes: Routes = [
   { path: 'students',  component: StudentListComponent ,canActivate:[AuthGuard]},
@@ -16,13 +18,13 @@ const studentRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [StudentListComponent, NgbdModalConfirmAutofocus,FilterStudentsPipe],
+  declarations: [StudentListComponent, NgbdModalConfirmAutofocus,FilterStudentsPipe, JsonToDatePipe],
   imports: [
     CommonModule,
     RouterModule.forChild(studentRoutes),
     NgbModule,FormsModule
   ],
-  exports:[RouterModule, NgbdModalConfirmAutofocus],
+  exports:[RouterModule, NgbdModalConfirmAutofocus, JsonToDatePipe],
   entryComponents: [NgbdModalConfirmAutofocus]
 })
 export class StudentsModule {}

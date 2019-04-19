@@ -1,38 +1,47 @@
-<div class="row">
-  <div class="col-md-4">
-    <div class="row">
-      <div class="col">
-        <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Select category</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem (click)="setCategoryFilter('all')">All</button>
-            <button ngbDropdownItem (click)="setCategoryFilter('Domestic')">Domestic</button>
-            <button ngbDropdownItem (click)="setCategoryFilter('International')">International</button>
-          </div>
-        </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <select name="categoryFilter" id="categoryFilter" [(ngModel)]="categoryFilter" #ctrl="ngModel"
+          [ngModelOptions]="{standalone: true}" class="selectType browser-default custom-select">
+          <option value="All">All</option>
+          <option value="Domestic">Domestic</option>
+          <option value="International">International</option>
+        </select>
       </div>
     </div>
+
+    <div class="form-group has-search col-md-5">
+      <span class="fa fa-search form-control-feedback"></span>
+      <input [(ngModel)]="searchFilter" type="text" class="form-control" placeholder="Search">
+    </div>
   </div>
-  <div class="col-md-4"></div>
-  <div class="col-md-2">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" anme="searchFilter" aria-label="Search"
-      [(ngModel)]="searchFilter" #ctrl="ngModel" [ngModelOptions]="{standalone: true}">
-  </div>
-</div>
-<br />
-<br />
-<br />
-<div class="row">
-  <div class="card" style="width: 18rem;" *ngFor="let student of (students|filterStudents:categoryFilter:searchFilter)">
-    <div class="card-body">
-      <h5 class="card-title">{{student.name}}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">{{student.category}}</h6>
-      <p class="card-text">{{student.fatherName}}</p>
-      <p class="card-text">{{student.motherName}}</p>
-      <p class="card-text">{{student.dob}}</p>
-      <a [routerLink]="['/students/view', student.id]" class="card-link">Details</a>
-      <a [routerLink]="['/students/edit', student.id]" class="card-link">Edit </a>
-      <button class="btn btn-primary" (click)="DeleteStudent(student.id)">Delete </button>
+
+  <div class="row gridRow">
+    <div class="col-md-4 gridCol" *ngFor="let student of (students|filterStudents:categoryFilter:searchFilter)">
+      <div class="card" style="width: 18rem;">
+        <div class="card-header list-header pb-0" [class.categoryDomestic]="student.category === 'Domestic'" [class.categoryInternational]="student.category === 'International'">
+          <h4 class="card-title">{{student.name}} <span class="age">{{student.dateOfBirth|jsonToDate|date}}</span></h4>
+        </div>
+        <!-- <img class="card-img-top imgCard" src="assets/images/student.png" alt="Card image cap"> -->
+        <div class="card-body list-body">
+          <div *ngIf="student.category === 'Domestic'">{{student.category}}</div>
+          <div *ngIf="student.category === 'International'">{{student.category}}</div>
+          <div class="card-text details">
+            <div><span class="label">Father's Name</span> : {{student.fatherName}}</div>
+            <div><span class="label">Mother's Name</span> : {{student.motherName}}</div>
+            <div><span class="label">Last Year Marks</span> : {{student.lastClassScore}}%</div>
+
+          </div>
+          <a class="btn btn-outline-primary handlerButton" [routerLink]="['/students/view', student.id]">Details</a>
+          &nbsp;
+          <a [routerLink]="['/students/edit', student.id]" class="btn btn-outline-primary handlerButton">Edit </a>
+          &nbsp;
+          <button class="btn btn-outline-primary handlerButton" (click)="DeleteStudent(student.id)"><i
+              class="fa fa-trash"></i> Delete</button>
+
+        </div>
+      </div>
     </div>
   </div>
 </div>

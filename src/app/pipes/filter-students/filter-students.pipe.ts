@@ -9,11 +9,12 @@ import {
 export class FilterStudentsPipe implements PipeTransform {
 
   transform(students: any[], category: string = "all", searchText: string = ""): any {
-    if (category != "all") {
-      students = students.filter(s => s.category == category);
+    if (category.toLowerCase() != "all") {
+      students = students.filter(s => s.category.toLowerCase() == category.toLowerCase());
     }
+    searchText = searchText.trim().toLowerCase()
     if (searchText != "") {
-      students = students.filter(s => s.name.indexOf(searchText)!=-1);
+      students = students.filter(s => s.name.toLowerCase().indexOf(searchText)!=-1);
     }
     return students;
   }

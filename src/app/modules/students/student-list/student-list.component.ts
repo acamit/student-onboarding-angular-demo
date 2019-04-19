@@ -9,7 +9,7 @@ import { NgbdModalConfirmAutofocus } from '../modal-focus/modal-focus.component'
   styleUrls: ['./student-list.component.css']
 })
 export class StudentListComponent implements OnInit {
-  categoryFilter:string = "all";
+  categoryFilter:string = "All";
   searchFilter:string = "";
   constructor(private _studentService:StudentInfoService, private _modalService: NgbModal) { }
   students = this._studentService.getStudents();

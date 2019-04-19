@@ -1,0 +1,82 @@
+.gridCol {
+  margin-bottom: 3%;
+}
+
+.gridRow {
+  margin-top: 3%;
+}
+
+.label {
+  font-weight: bold
+}
+
+.details {
+  margin-bottom: 5%;
+}
+
+.imgCard {
+  padding: 3%;
+}
+
+.categoryDomestic {
+  background-color: steelblue;
+  font-family: cursive;
+}
+
+.categoryInternational {
+  background-color: indianred;
+  font-family: cursive;
+}
+
+.age {
+  font-size: 14px;
+  color: lightgoldenrodyellow;
+}
+
+.selectType {
+  margin-top: 10.5%;
+}
+
+.handlerButton {
+  font-size: 13px
+}
+
+.form-group {
+  margin-top: 3%;
+}
+
+.has-search .form-control {
+  padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 3.375rem;
+  height: 3.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
+}
+
+.has-search {
+  text-align: center;
+}
+
+.heading {
+  text-align: center;
+  margin-top: 2%;
+  font-family: sans-serif
+}
+
+.list-header {
+  /* background-color: #158cba; */
+  color: white
+}
+
+.list-body {
+  background-color: #fcfcfc;
+  border: 1px solid lightgray;
+}
