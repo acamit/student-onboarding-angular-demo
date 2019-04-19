@@ -30,7 +30,7 @@
       <p class="card-text">{{student.fatherName}}</p>
       <p class="card-text">{{student.motherName}}</p>
       <p class="card-text">{{student.dob}}</p>
-      <a [routerLink]="['/students', student.id]" class="card-link">Details</a>
+      <a [routerLink]="['/students/details', student.id]" class="card-link">Details</a>
       <a [routerLink]="['/students/edit', student.id]" class="card-link">Edit </a>
       <button class="btn btn-primary" (click)="DeleteStudent(student.id)">Delete </button>
     </div>
