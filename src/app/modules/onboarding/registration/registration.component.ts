@@ -67,7 +67,6 @@ export class RegistrationComponent {
         return null;
       }
     }).filter((c)=>c!=null);
-    console.log(this.registrationForm.value.documents)
     this._studentService.registerStudent(this.registrationForm.value).subscribe((result)=>{
       if(result.success){
         this.alertType = "alert alert-success";

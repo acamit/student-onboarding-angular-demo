@@ -31,14 +31,6 @@ export class StudentInfoService {
 
     return this.http.post<any>(`students/register`, { student})
             .pipe(map(result => {
-                // login successful if there's a jwt token in the response
-                // if (result && result.Success) {
-                //     // // store user details and jwt token in local storage to keep user logged in between page refreshes
-                //     // localStorage.setItem('currentUser', JSON.stringify(user));
-                //     // this.currentUserSubject.next(user);
-
-                // }
-                // //return user;
                 return result;
             }));
   }

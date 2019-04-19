@@ -7,10 +7,11 @@ import { NgbdModalConfirmAutofocus } from './modal-focus/modal-focus.component';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterStudentsPipe } from 'src/app/pipes/filter-students/filter-students.pipe';
+import { FormsModule } from '@angular/forms';
 
 const studentRoutes: Routes = [
   { path: 'students',  component: StudentListComponent ,canActivate:[AuthGuard]},
-  { path: 'students/:id', component: RegistrationComponent,canActivate:[AuthGuard] },
+  { path: 'students/details/:id', component: RegistrationComponent,canActivate:[AuthGuard] },
   { path: 'students/edit/:id', component: RegistrationComponent, canActivate:[AuthGuard]}
 ];
 
@@ -19,7 +20,7 @@ const studentRoutes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(studentRoutes),
-    NgbModule
+    NgbModule,FormsModule
   ],
   exports:[RouterModule, NgbdModalConfirmAutofocus],
   entryComponents: [NgbdModalConfirmAutofocus]

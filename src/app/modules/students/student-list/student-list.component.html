@@ -14,15 +14,16 @@
     </div>
   </div>
   <div class="col-md-4"></div>
-  <div class="col-md-4">
-    search here
+  <div class="col-md-2">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" anme="searchFilter" aria-label="Search"
+      [(ngModel)]="searchFilter" #ctrl="ngModel" [ngModelOptions]="{standalone: true}">
   </div>
 </div>
 <br />
 <br />
 <br />
 <div class="row">
-  <div class="card" style="width: 18rem;" *ngFor="let student of (students|filterStudents:categoryFilter)">
+  <div class="card" style="width: 18rem;" *ngFor="let student of (students|filterStudents:categoryFilter:searchFilter)">
     <div class="card-body">
       <h5 class="card-title">{{student.name}}</h5>
       <h6 class="card-subtitle mb-2 text-muted">{{student.category}}</h6>
