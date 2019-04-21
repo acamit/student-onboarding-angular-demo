@@ -120,6 +120,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                         let newStudent = newStudents[i];
                         if (newStudent.id === id) {
                             newStudents.splice(i, 1);
+                            request.body.student.id =id;
                             newStudents.push(request.body.student);
                             localStorage.setItem('students', JSON.stringify(newStudents));
                             break;
@@ -140,16 +141,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     // find user by id in users array
                     let urlParts = request.url.split('/');
                     let id = parseInt(urlParts[urlParts.length - 1]);
-                    for (let i = 0; i < users.length; i++) {
-                        let user = users[i];
-                        if (user.id === id) {
-                            // delete user
-                            users.splice(i, 1);
-                            localStorage.setItem('users', JSON.stringify(users));
+                    students = localStorage.getItem("students");
+                    newStudents = [];
+                    if(students){
+                        newStudents = JSON.parse(students);
+                    }
+                    for (let i = 0; i < newStudents.length; i++) {
+                        let newStudent = newStudents[i];
+                        if (newStudent.id === id) {
+                            newStudents.splice(i, 1);
+                            localStorage.setItem('students', JSON.stringify(newStudents));
                             break;
                         }
                     }
-
                     // respond 200 OK
                     return of(new HttpResponse({ status: 200 }));
                 } else {

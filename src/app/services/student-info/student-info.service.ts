@@ -23,7 +23,10 @@ import {
 export class StudentInfoService {
   constructor(private http: HttpClient) {}
   DeleteStudent(id: any) {
-    return true;
+    return this.http.delete<any> (`student/${id}`)
+    .pipe(map(result => {
+      return result;
+    }));
   }
    public getStudent(id: number): Observable < any > {
     return this.http.get < any > (`students/${id}`)

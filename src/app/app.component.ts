@@ -7,9 +7,7 @@ import {
 import {
   Router
 } from '@angular/router';
-import {
-  User
-} from './Entities/User';
+import {User} from './Entities/User';
 
 @Component({
   selector: 'app-root',

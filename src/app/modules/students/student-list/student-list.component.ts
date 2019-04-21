@@ -12,19 +12,22 @@ export class StudentListComponent implements OnInit {
   categoryFilter:string = "All";
   searchFilter:string = "";
   constructor(private _studentService:StudentInfoService, private _modalService: NgbModal) { }
-  students = this._studentService.getStudents();
+  students ;//= this._studentService.getStudents();
   ngOnInit() {
+    this.students = this._studentService.getStudents();
   }
   setCategoryFilter(filter:string){
     this.categoryFilter = filter;
   }
   DeleteStudent(id){
    var modalRef =  this._modalService.open(NgbdModalConfirmAutofocus);
-   modalRef.componentInstance.student = this.students[0];
+   modalRef.componentInstance.student = this.students.filter(x=>x.id==id)[0];
    modalRef.result.then(x=>{
      if(x=='Confirm'){
-       this._studentService.DeleteStudent(id);
-       alert("deleted");
+       this._studentService.DeleteStudent(id).subscribe((result)=>{
+          this.students = this._studentService.getStudents();
+          alert("deleted")
+       }, (error)=>{alert(error)});
      }
    }).catch(x=>{
     if(x=='Cancel'){

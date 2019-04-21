@@ -43,5 +43,6 @@
         </div>
       </div>
     </div>
+    <div class="alert alert-primary" *ngIf="!students || (students|filterStudents:categoryFilter:searchFilter).length==0">No students found! You can register for students <a [routerLink]="['../registration']">here</a>.</div>
   </div>
 </div>

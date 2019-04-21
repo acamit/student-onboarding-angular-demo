@@ -39,7 +39,6 @@ import {
   fakeBackendProvider
 } from './helpers/fake-backend';
 
-
 @NgModule({
   declarations: [
     AppComponent,
