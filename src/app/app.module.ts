@@ -38,7 +38,7 @@ import {
 import {
   fakeBackendProvider
 } from './helpers/fake-backend';
-import { ErrorModule } from './shared/error/error.module';
+import { ErrorModule } from './modules/shared/error/error.module';
 
 @NgModule({
   declarations: [
