@@ -35,7 +35,7 @@ export class StudentInfoService {
       }));
   }
 
-  public getStudents(): any[] {
+  public getStudents(): Student[] {
     return JSON.parse(localStorage.getItem("students"));
   }
 

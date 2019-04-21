@@ -19,9 +19,15 @@ import {
 import {
   Student
 } from 'src/app/Entities/Student.js';
-import { documentsValidator } from 'src/app/validators/documents-validator/documents-validator.directive.js';
+import {
+  documentsValidator
+} from 'src/app/validators/documents-validator/documents-validator.directive.js';
 import RegDocument from 'src/app/Entities/Document.js';
-import { CATEGORY_DOMESTIC, CATEGORY_INTERNATIONAL } from 'src/app/data/constants.js';
+import {
+  CATEGORY_DOMESTIC,
+  CATEGORY_INTERNATIONAL
+} from 'src/app/data/constants.js';
+import { NgbDateStruct, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-registration',
@@ -29,7 +35,7 @@ import { CATEGORY_DOMESTIC, CATEGORY_INTERNATIONAL } from 'src/app/data/constant
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent {
-  
+
   registrationForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     category: new FormControl(CATEGORY_DOMESTIC, [Validators.required]),
@@ -59,6 +65,7 @@ export class RegistrationComponent {
             this.setEditableValues(this.editableStudent);
           },
           (error) => {
+            //use logger service to log error to server. and navigate to error page.
             this.router.navigate(['/error/404'])
           });
       }
@@ -121,7 +128,7 @@ export class RegistrationComponent {
     Documents.forEach((d) => {
       this.requiredDocuments.push(d);
       if ((this.registrationForm.value.category == CATEGORY_DOMESTIC && d.requiredDomestic) ||
-        (this.registrationForm.value.category == CATEGORY_INTERNATIONAL && d.requiredInternational)) {  
+        (this.registrationForm.value.category == CATEGORY_INTERNATIONAL && d.requiredInternational)) {
         this.documents.push(new FormControl(false, [Validators.required]));
       } else {
         this.documents.push(new FormControl(false));
@@ -138,7 +145,7 @@ export class RegistrationComponent {
       lastClassScore: student.lastClassScore,
     });
     this.category.markAsDirty(); // to make the custom validator active
-    this.registrationForm.setControl('documents', this.setDocuments(student.documents)) // to set the form array
+    this.setDocuments(student.documents);
     if (this.disableFields) // in case of view fields
     {
       this.makingFieldsDisable(); // making fiels disable
@@ -149,14 +156,12 @@ export class RegistrationComponent {
    * @param docs docs array which needs to be populated to form array
    * Function used to populate form array
    */
-  setDocuments(docs): FormArray {
-    const formArray = new FormArray([]);
-    formArray.controls = [];
-    docs.map((o, i) => {
-      const control = new FormControl(o); 
-      (formArray as FormArray).push(control);
+  setDocuments(docs) {
+    this.documents.controls.forEach((c,i) => {
+      if(docs.includes(i+1)){
+        c.setValue(true);
+      }
     });
-    return formArray
   }
 
   /**
@@ -174,33 +179,36 @@ export class RegistrationComponent {
         control.disable();
       })
   }
-
+  /**
+   * Handle form submit
+   */
   onSubmit() {
+    //store document ids instead of true/false
     this.extractDocumentIds();
+    //call update method for edit route
     if (this.editableStudent) {
       this._studentService.updateStudent(this.registrationForm.value, this.editableStudent.id).subscribe((result) => {
-        if (result.success) {
-          this.alertType = "alert alert-success";
-          this.message = "Student updated";
-        } else {
-          this.alertType = "alert alert-danger";
-          this.message = result.error;
-        }
+        this.alertType = "alert alert-success";
+        this.message = "Student updated";
+      }, (error) => {
+        this.alertType = "alert alert-danger";
+        this.message = error;
       })
     } else {
       this._studentService.registerStudent(this.registrationForm.value).subscribe((result) => {
-        if (result.success) {
           this.alertType = "alert alert-success";
           this.message = "Student Saved";
           this.registrationForm.reset();
-        } else {
+        },
+        (error) => {
           this.alertType = "alert alert-danger";
-          this.message = result.error;
-        }
-      });
+          this.message = error;
+        });
     }
-
   }
+  /**
+   * extract document ids from select list. 
+   */
   extractDocumentIds() {
     this.registrationForm.value.documents = this.documents.controls.map((control, index) => {
       if (control.value) {

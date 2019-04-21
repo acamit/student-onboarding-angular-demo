@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StudentInfoService } from '../../../services/student-info/student-info.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalConfirmAutofocus } from '../modal-focus/modal-focus.component';
+import { Student } from 'src/app/Entities/Student';
 
 @Component({
   selector: 'app-student-list',
@@ -12,7 +13,7 @@ export class StudentListComponent implements OnInit {
   categoryFilter:string = "All";
   searchFilter:string = "";
   constructor(private _studentService:StudentInfoService, private _modalService: NgbModal) { }
-  students ;//= this._studentService.getStudents();
+  students :Student[];
   ngOnInit() {
     this.students = this._studentService.getStudents();
   }
@@ -26,12 +27,14 @@ export class StudentListComponent implements OnInit {
      if(x=='Confirm'){
        this._studentService.DeleteStudent(id).subscribe((result)=>{
           this.students = this._studentService.getStudents();
-          alert("deleted")
+          alert("deleted");
        }, (error)=>{alert(error)});
      }
    }).catch(x=>{
     if(x=='Cancel'){
-      alert("Cancelled");
+      //alert("Cancelled");
+    }else{
+      console.log(x);
     }
    });
    
