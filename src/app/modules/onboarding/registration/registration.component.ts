@@ -21,6 +21,7 @@ import {
 } from 'src/app/Entities/Student.js';
 import { documentsValidator } from 'src/app/validators/documents-validator/documents-validator.directive.js';
 import RegDocument from 'src/app/Entities/Document.js';
+import { CATEGORY_DOMESTIC, CATEGORY_INTERNATIONAL } from 'src/app/data/constants.js';
 
 @Component({
   selector: 'app-registration',
@@ -28,10 +29,10 @@ import RegDocument from 'src/app/Entities/Document.js';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent {
-
+  
   registrationForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    category: new FormControl('Domestic', [Validators.required]),
+    category: new FormControl(CATEGORY_DOMESTIC, [Validators.required]),
     documents: this.fb.array([]),
     dateOfBirth: new FormControl('', [Validators.required]),
     fatherName: new FormControl('', [Validators.required]),
@@ -55,11 +56,10 @@ export class RegistrationComponent {
         }
         this._studentService.getStudent(id).subscribe((result) => {
             this.editableStudent = result;
-            this.setEditableValues(this.editableStudent); // setting value in form
+            this.setEditableValues(this.editableStudent);
           },
           (error) => {
-            //redirect to 404
-            console.log(error);
+            this.router.navigate(['/error/404'])
           });
       }
     })
@@ -120,8 +120,8 @@ export class RegistrationComponent {
     this.requiredDocuments.splice(0, this.requiredDocuments.length);
     Documents.forEach((d) => {
       this.requiredDocuments.push(d);
-      if ((this.registrationForm.value.category == "Domestic" && d.requiredDomestic) ||
-        (this.registrationForm.value.category == "International" && d.requiredInternational)) {  
+      if ((this.registrationForm.value.category == CATEGORY_DOMESTIC && d.requiredDomestic) ||
+        (this.registrationForm.value.category == CATEGORY_INTERNATIONAL && d.requiredInternational)) {  
         this.documents.push(new FormControl(false, [Validators.required]));
       } else {
         this.documents.push(new FormControl(false));
@@ -153,8 +153,8 @@ export class RegistrationComponent {
     const formArray = new FormArray([]);
     formArray.controls = [];
     docs.map((o, i) => {
-      const control = new FormControl(o); // if first item set to true, else false
-      (formArray as FormArray).push(control); //filling the form array with form controls
+      const control = new FormControl(o); 
+      (formArray as FormArray).push(control);
     });
     return formArray
   }
@@ -182,7 +182,6 @@ export class RegistrationComponent {
         if (result.success) {
           this.alertType = "alert alert-success";
           this.message = "Student updated";
-          //this.registrationForm.reset();
         } else {
           this.alertType = "alert alert-danger";
           this.message = result.error;

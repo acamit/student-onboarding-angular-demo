@@ -38,6 +38,7 @@ import {
 import {
   fakeBackendProvider
 } from './helpers/fake-backend';
+import { ErrorModule } from './shared/error/error.module';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import {
     OnboardingModule,
     StudentsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ErrorModule
   ],
   bootstrap: [AppComponent]
 })

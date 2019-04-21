@@ -4,6 +4,7 @@ import {
   FormGroup
 } from '@angular/forms';
 import Documents from '../../../assets/Documents.json'
+import { CATEGORY_DOMESTIC, CATEGORY_INTERNATIONAL } from 'src/app/data/constants.js';
 
 export function documentsValidator(): ValidatorFn {
   return (form: FormGroup): {[key: string]: any} | null => {
@@ -11,8 +12,8 @@ export function documentsValidator(): ValidatorFn {
     let category = form.get('category').value;
     let hasError:boolean =false;
     documentsControl.controls.forEach((control, i) => {
-      if(!control.pristine && ((category=="Domestic" && Documents[i].requiredDomestic)
-      ||(category=="International" && Documents[i].requiredInternational)) && !control.value){
+      if(!control.pristine && ((category==CATEGORY_DOMESTIC && Documents[i].requiredDomestic)
+      ||(category==CATEGORY_INTERNATIONAL && Documents[i].requiredInternational)) && !control.value){
         control.setErrors({required:true})
         hasError = true;
       }
