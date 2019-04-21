@@ -33,9 +33,9 @@
             <div><span class="label">Last Year Marks</span> : {{student.lastClassScore}}%</div>
 
           </div>
-          <a class="btn btn-outline-primary handlerButton" [routerLink]="['/students/view', student.id]">Details</a>
+          <a class="btn btn-outline-primary handlerButton" [routerLink]="['/students/view', student.id]"><i class="fas fa-info-circle"></i>Details</a>
           &nbsp;
-          <a [routerLink]="['/students/edit', student.id]" class="btn btn-outline-primary handlerButton">Edit </a>
+          <a [routerLink]="['/students/edit', student.id]" class="btn btn-outline-primary handlerButton"><i class="fas fa-user-edit"></i>Edit </a>
           &nbsp;
           <button class="btn btn-outline-primary handlerButton" (click)="DeleteStudent(student.id)"><i
               class="fa fa-trash"></i> Delete</button>
