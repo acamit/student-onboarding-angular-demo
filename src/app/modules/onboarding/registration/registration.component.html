@@ -6,12 +6,12 @@
       </div>
       <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <label for="name">Name</label>
+          <label for="name">Name*</label>
           <input type="text" class="form-control" id="name" aria-describedby="Name" placeholder="Name" required
             formControlName="name">
         </div>
         <div class="form-group">
-          <label for="CategorySelect">Select Category</label>
+          <label for="CategorySelect">Select Category*</label>
           <select class="form-control" id="CategorySelect" required formControlName='category'
             (change)="getDocuments($event)">
             <option value="Domestic">Domestic</option>
@@ -19,7 +19,7 @@
           </select>
         </div>
         <div formArrayName="documents">
-          <label>Documents</label>
+          <label>Documents*</label>
           <div *ngFor="let document of documents.controls;let i = index">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" [value]="requiredDocuments[i].id"
@@ -30,7 +30,7 @@
             </div>
           </div>
         </div>
-        <label for="dp">Date Of Birth</label>
+        <label for="dp">Date Of Birth*</label>
         <div class="form-group">
           <div class="input-group">
             <input class="form-control" placeholder="yyyy-mm-dd" name="d" formControlName="dateOfBirth" ngbDatepicker
@@ -41,17 +41,17 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="fatherName">Father's Name</label>
+          <label for="fatherName">Father's Name*</label>
           <input type="text" class="form-control" id="fatherName" aria-describedby="fatherName"
             placeholder="Father's Name" required formControlName="fatherName">
         </div>
         <div class="form-group">
-          <label for="motherName">Mother's Name</label>
+          <label for="motherName">Mother's Name*</label>
           <input type="text" class="form-control" id="motherName" aria-describedby="motherName"
             placeholder="Mother's Name" required formControlName="motherName">
         </div>
         <div class="form-group">
-          <label for="lastClassScore">Last Class Score</label>
+          <label for="lastClassScore">Last Class Score*</label>
           <input type="number" class="form-control" id="lastClassScore" aria-describedby="lastClassScore"
             placeholder="Last Class Score" required formControlName="lastClassScore">
         </div>

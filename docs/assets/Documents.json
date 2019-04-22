@@ -26,7 +26,7 @@
     "id": 5,
     "name": "Passport",
     "requiredInternational": true,
-    "requiredDomestic": true
+    "requiredDomestic": false
   },
   {
     "id": 6,
