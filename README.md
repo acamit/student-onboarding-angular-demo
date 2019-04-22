@@ -19,3 +19,9 @@ Run `ng build --prod --output-path docs --base-href /student-onboarding-angular-
 Only 1 user is enabled for dev purposes
 #### Username = nagarro
 #### Password = nagarro
+
+## GITHUB URLs
+### Repo - 
+https://github.com/acamit/student-onboarding-angular-demo
+### Github pages - 
+https://acamit.github.io/student-onboarding-angular-demo/
