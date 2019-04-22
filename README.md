@@ -14,3 +14,8 @@ This will start the dev server and launch browser to run the application. Browse
 ## Build
 
 Run `ng build --prod --output-path docs --base-href /student-onboarding-angular-demo/` to build the project. The build result is stoted in `docs/` folder. This is used as github pages are configured to load files from `docs/` directory. The build artifacts will be stored in the `dist/` directory.  Use the `--prod` flag for a production build.
+
+## Login Info
+Only 1 user is enabled for dev purposes
+#### Username = nagarro
+#### Password = nagarro
